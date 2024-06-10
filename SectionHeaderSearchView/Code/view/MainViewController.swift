@@ -11,6 +11,7 @@ import PinLayout
 final class MainViewController: UIViewController {
     
     private var viewModel = ViewModel()
+    private var searchText = ""
     
     private var collectionViewLayout: UICollectionViewLayout {
         UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
@@ -59,7 +60,13 @@ final class MainViewController: UIViewController {
     }
     
     private func update() {
-        collectionView.reloadData()
+        if searchText.isEmpty {
+            collectionView.reloadData()
+        } else {
+            let lastSectionNumber = viewModel.models.count - 1
+            collectionView.reloadSections([lastSectionNumber])
+        }
+        
     }
     
     private func isNeedShowSearchView(for section: Int) -> Bool {
@@ -167,6 +174,7 @@ extension MainViewController: SearchViewDelegate {
         guard newText.count >= 3 else {
             return
         }
+        searchText = newText
         viewModel.search(newText)
         update()
     }

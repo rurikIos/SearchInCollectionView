@@ -10,6 +10,7 @@ final class ViewModel {
     var models: [[CellViewModel]] {
         [
             companyModels,
+            [],
             searchText.isEmpty ? requestModels : requestModels.filter { model in
                 switch model {
                 case .company:
