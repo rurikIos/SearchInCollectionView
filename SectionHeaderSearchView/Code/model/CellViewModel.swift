@@ -7,5 +7,6 @@
 
 enum CellViewModel {
     case company(CompanyCellViewModel)
+    case search
     case request(RequestCellViewModel)
 }

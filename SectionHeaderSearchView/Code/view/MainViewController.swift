@@ -13,11 +13,11 @@ final class MainViewController: UIViewController {
     private var viewModel = ViewModel()
     private var searchText = ""
     
-    private var collectionViewLayout: UICollectionViewLayout {
+    private lazy var collectionViewLayout: UICollectionViewLayout = {
         UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
             self?.createSection(for: sectionIndex)
         }
-    }
+    }()
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
@@ -51,12 +51,7 @@ final class MainViewController: UIViewController {
         
         collectionView.register(CompanyCell.self, forCellWithReuseIdentifier: "CompanyCell")
         collectionView.register(RequestCell.self, forCellWithReuseIdentifier: "RequestCell")
-        
-        collectionView.register(
-            SearchViewSupplementaryItem.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: SearchViewSupplementaryItem.identifier
-        )
+        collectionView.register(SearchViewCell.self, forCellWithReuseIdentifier: "SearchViewCell")
     }
     
     private func update() {
@@ -79,20 +74,6 @@ final class MainViewController: UIViewController {
     
     private func createSection(for sectionIndex: Int) -> NSCollectionLayoutSection {
         let section = NSCollectionLayoutSection(group: createGroupLayout())
-        
-        if isNeedShowSearchView(for: sectionIndex) {
-            let searchViewSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .absolute(Dimens.inlineHeight_xs)
-            )
-            let searchViewSupplementary = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: searchViewSize,
-                elementKind: UICollectionView.elementKindSectionHeader,
-                alignment: .top
-            )
-            section.boundarySupplementaryItems.append(searchViewSupplementary)
-        }
-        
         return section
     }
     
@@ -133,6 +114,13 @@ extension MainViewController: UICollectionViewDataSource {
             ) as! CompanyCell
             cell.setup(model)
             return cell
+        case .search:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "SearchViewCell",
+                for: indexPath
+            ) as! SearchViewCell
+            cell.set(delegate: self)
+            return cell
         case .request(let model):
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "RequestCell",
@@ -140,29 +128,6 @@ extension MainViewController: UICollectionViewDataSource {
             ) as! RequestCell
             cell.setup(model)
             return cell
-        }
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        viewForSupplementaryElementOfKind kind: String,
-        at indexPath: IndexPath
-    ) -> UICollectionReusableView {
-        switch kind {
-        case UICollectionView.elementKindSectionHeader:
-            guard let searchInput = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: String(describing: SearchViewSupplementaryItem.self),
-                for: indexPath
-            ) as? SearchViewSupplementaryItem else {
-                fatalError(
-                    "faled deque supplementary"
-                )
-            }
-            searchInput.set(delegate: self)
-            return searchInput
-        default:
-            fatalError("unknown supplementary element")
         }
     }
 }

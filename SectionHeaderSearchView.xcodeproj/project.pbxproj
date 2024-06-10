@@ -22,7 +22,7 @@
 		E258715F2C16E5F200EBE06D /* Dimens.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258715E2C16E5F200EBE06D /* Dimens.swift */; };
 		E25871622C16E94300EBE06D /* CompanyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25871612C16E94300EBE06D /* CompanyCell.swift */; };
 		E25871642C170DBE00EBE06D /* RequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25871632C170DBE00EBE06D /* RequestCell.swift */; };
-		E25871672C17171F00EBE06D /* SearchViewSupplementaryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25871662C17171F00EBE06D /* SearchViewSupplementaryItem.swift */; };
+		E25871692C172E6A00EBE06D /* SearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25871682C172E6A00EBE06D /* SearchViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,7 +43,7 @@
 		E258715E2C16E5F200EBE06D /* Dimens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimens.swift; sourceTree = "<group>"; };
 		E25871612C16E94300EBE06D /* CompanyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyCell.swift; sourceTree = "<group>"; };
 		E25871632C170DBE00EBE06D /* RequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestCell.swift; sourceTree = "<group>"; };
-		E25871662C17171F00EBE06D /* SearchViewSupplementaryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewSupplementaryItem.swift; sourceTree = "<group>"; };
+		E25871682C172E6A00EBE06D /* SearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewCell.swift; sourceTree = "<group>"; };
 		F04B46C2EC5F0A5CDF1AE31B /* Pods_SectionHeaderSearchView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SectionHeaderSearchView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C36FFE153FECEBA3A95900 /* Pods-SectionHeaderSearchView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SectionHeaderSearchView.debug.xcconfig"; path = "Target Support Files/Pods-SectionHeaderSearchView/Pods-SectionHeaderSearchView.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -170,6 +170,7 @@
 			children = (
 				E25871612C16E94300EBE06D /* CompanyCell.swift */,
 				E25871632C170DBE00EBE06D /* RequestCell.swift */,
+				E25871682C172E6A00EBE06D /* SearchViewCell.swift */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -177,7 +178,6 @@
 		E25871652C17170300EBE06D /* supplementary */ = {
 			isa = PBXGroup;
 			children = (
-				E25871662C17171F00EBE06D /* SearchViewSupplementaryItem.swift */,
 			);
 			path = supplementary;
 			sourceTree = "<group>";
@@ -299,12 +299,12 @@
 			files = (
 				E251B8622C16D734004E2A16 /* ViewModel.swift in Sources */,
 				E25871642C170DBE00EBE06D /* RequestCell.swift in Sources */,
+				E25871692C172E6A00EBE06D /* SearchViewCell.swift in Sources */,
 				E251B84C2C16D3A6004E2A16 /* ViewController.swift in Sources */,
 				E251B8692C16D8C3004E2A16 /* RequestCellViewModel.swift in Sources */,
 				E258715F2C16E5F200EBE06D /* Dimens.swift in Sources */,
 				E251B8482C16D3A6004E2A16 /* AppDelegate.swift in Sources */,
 				E25871622C16E94300EBE06D /* CompanyCell.swift in Sources */,
-				E25871672C17171F00EBE06D /* SearchViewSupplementaryItem.swift in Sources */,
 				E251B84A2C16D3A6004E2A16 /* SceneDelegate.swift in Sources */,
 				E251B8652C16D7FE004E2A16 /* CellViewModel.swift in Sources */,
 				E251B8672C16D86A004E2A16 /* CompanyCellViewModel.swift in Sources */,

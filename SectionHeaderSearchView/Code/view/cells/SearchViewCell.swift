@@ -1,22 +1,21 @@
 //
-//  SearchViewSupplementaryItem.swift
+//  SearchViewCell.swift
 //  SectionHeaderSearchView
 //
 //  Created by Чайков Ю.И. on 10.06.2024.
 //
 
 import UIKit
+import PinLayout
 
 protocol SearchViewDelegate: AnyObject {
+    
     func search(newText: String)
     func didEndEditing()
+    
 }
 
-final class SearchViewSupplementaryItem: UICollectionReusableView {
-    
-    static var identifier: String {
-        return String(describing: self)
-    }
+final class SearchViewCell: UICollectionViewCell {
     
     weak var delegate: SearchViewDelegate?
     
@@ -28,34 +27,42 @@ final class SearchViewSupplementaryItem: UICollectionReusableView {
         textField.delegate = self
         return textField
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        accessibilityIdentifier = "SearchViewSupplementaryItem"
+        contentView.accessibilityIdentifier = "SearchViewCell"
         backgroundColor = .lightGray
-        addSubview(textField)
+        contentView.addSubview(textField)
     }
     
+    
     required init?(coder: NSCoder) {
-        fatalError("not implemented")
+        fatalError("init(coder:) has not been implemented")
     }
     
     func set(delegate: SearchViewDelegate) {
         self.delegate = delegate
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        textField.pin.all()
-    }
-    
     @objc private func textFieldValueDidChange() {
         delegate?.search(newText: textField.text ?? "")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layout()
+    }
+    
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(width: size.width, height: Dimens.inlineHeight_xs)
+    }
+    
+    private func layout() {
+        textField.pin.all()
+    }
 }
 
-extension SearchViewSupplementaryItem: UITextFieldDelegate {
+extension SearchViewCell: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         delegate?.didEndEditing()

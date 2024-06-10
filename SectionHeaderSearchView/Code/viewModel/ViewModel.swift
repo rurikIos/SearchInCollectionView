@@ -10,10 +10,10 @@ final class ViewModel {
     var models: [[CellViewModel]] {
         [
             companyModels,
-            [],
+            [.search],
             searchText.isEmpty ? requestModels : requestModels.filter { model in
                 switch model {
-                case .company:
+                case .company, .search:
                     false
                 case .request(let model):
                     model.companyName.contains(searchText)
