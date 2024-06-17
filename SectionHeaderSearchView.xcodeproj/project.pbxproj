@@ -132,7 +132,6 @@
 		E251B85F2C16D70F004E2A16 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				E25871652C17170300EBE06D /* supplementary */,
 				E25871602C16E92700EBE06D /* cells */,
 				E251B85D2C16D469004E2A16 /* MainViewController.swift */,
 			);
@@ -173,13 +172,6 @@
 				E25871682C172E6A00EBE06D /* SearchViewCell.swift */,
 			);
 			path = cells;
-			sourceTree = "<group>";
-		};
-		E25871652C17170300EBE06D /* supplementary */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = supplementary;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

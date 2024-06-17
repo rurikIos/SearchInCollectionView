@@ -19,19 +19,41 @@ final class MainViewController: UIViewController {
         }
     }()
     
-    private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
-        
-        if let delegate = self as? UICollectionViewDelegate {
-            collectionView.delegate = delegate
+    private lazy var collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: collectionViewLayout
+    )
+    
+    private lazy var dataSource = UICollectionViewDiffableDataSource<Int, CellViewModel>(
+        collectionView: collectionView
+    ) { [weak self] collectionView, indexPath, item in
+        guard let self else {
+            return UICollectionViewCell()
         }
-        
-        if let dataSource = self as? UICollectionViewDataSource {
-            collectionView.dataSource = dataSource
+        switch item {
+        case .company(let model):
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "CompanyCell",
+                for: indexPath
+            ) as! CompanyCell
+            cell.setup(model)
+            return cell
+        case .search:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "SearchViewCell",
+                for: indexPath
+            ) as! SearchViewCell
+            cell.set(delegate: self)
+            return cell
+        case .request(let model):
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "RequestCell",
+                for: indexPath
+            ) as! RequestCell
+            cell.setup(model)
+            return cell
         }
-        
-        return collectionView
-    }()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,13 +77,12 @@ final class MainViewController: UIViewController {
     }
     
     private func update() {
-        if searchText.isEmpty {
-            collectionView.reloadData()
-        } else {
-            let lastSectionNumber = viewModel.models.count - 1
-            collectionView.reloadSections([lastSectionNumber])
+        var snapshot = NSDiffableDataSourceSnapshot<Int, CellViewModel>()
+        viewModel.models.enumerated().forEach { index, items in
+            snapshot.appendSections([index])
+            snapshot.appendItems(items)
         }
-        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
     
     private func isNeedShowSearchView(for section: Int) -> Bool {
@@ -92,44 +113,6 @@ final class MainViewController: UIViewController {
         return NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
     }
     
-}
-
-extension MainViewController: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        viewModel.models.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.models[section].count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let item = viewModel.models[indexPath.section][indexPath.item]
-        switch item {
-        case .company(let model):
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "CompanyCell",
-                for: indexPath
-            ) as! CompanyCell
-            cell.setup(model)
-            return cell
-        case .search:
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "SearchViewCell",
-                for: indexPath
-            ) as! SearchViewCell
-            cell.set(delegate: self)
-            return cell
-        case .request(let model):
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "RequestCell",
-                for: indexPath
-            ) as! RequestCell
-            cell.setup(model)
-            return cell
-        }
-    }
 }
 
 extension MainViewController: SearchViewDelegate {
